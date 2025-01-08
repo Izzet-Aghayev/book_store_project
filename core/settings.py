@@ -37,6 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Additional parts
+    'rest_framework',
+
+    # Apps
+    'accounts.apps.AccountsConfig',
+    'books.apps.BooksConfig',
 ]
 
 MIDDLEWARE = [
@@ -105,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Baku'
 
 USE_I18N = True
 
