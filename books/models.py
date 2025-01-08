@@ -1,9 +1,14 @@
 from django.db import models
+from django.core.validators import (
+    MinValueValidator,
+    MaxValueValidator,
+    MinLengthValidator,
+)
 
 from core.utils.models import TrackingModel
 
 
-class CategoryModel(models.Model):
+class Category(models.Model):
     name = models.CharField(max_length=30)
 
     def __str__(self):
@@ -14,13 +19,14 @@ class CategoryModel(models.Model):
         verbose_name_plural = 'Categories'
 
 
-class BooksModel(TrackingModel, models.Model):
-    categories = models.ManyToManyField(CategoryModel)
+class Book(TrackingModel):
+    categories = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     title = models.CharField(max_length=50)
     author = models.CharField(max_length=30)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    discount_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
+    discount_price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)], null=True, blank=True)
     discount_dedline = models.DateTimeField()
-    number = models.IntegerField()
+    number = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(1000)])
+    book_isbn = models.CharField(max_length=13, validators=[MinLengthValidator(13)])
     description = models.TextField(null=True, blank=True)
