@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 
 from .models import Book
@@ -39,3 +39,19 @@ class CreateBookView(View):
         else:
             messages.error(request, form.errors)
             return redirect('create_book')
+
+
+class DetailBookView(View):
+    def get_object(self, pk):
+        books = Book.objects.select_related('categories')
+        book = get_object_or_404(books, pk=pk)
+        return book
+
+    def get(self, request, pk):
+        book = self.get_object(pk=pk)
+
+        context = {
+            'book': book
+        }
+
+        return render(request, 'books/detail_book.html', context)

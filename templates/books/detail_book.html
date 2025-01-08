@@ -1,0 +1,27 @@
+{% extends 'base/layout.html' %}
+
+{% block title %}
+  Detail-{{book.title}}
+{% endblock %}
+
+{% block messages %}
+{% if messages %}
+{% for message in messages %}
+  <p>{{ message }}</p>
+{% endfor %}
+{% endif %} 
+{% endblock messages %}
+
+{% block content %}
+
+    <p>{{ book.categories }}</p>
+    <p>{{ book.title }}</p>
+    <p>{{ book.author }}</p>
+    <p>{{ book.price }}</p>
+    <p>{{ book.discount_price }}</p>
+    <p>{{ book.discount_dedline }}</p>
+    <p>{{ book.number }}</p>
+    <p>{{ book.book_isbn }}</p>
+    <p>{{ book.description }}</p>
+
+{% endblock %}
