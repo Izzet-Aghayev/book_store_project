@@ -1,0 +1,21 @@
+{% extends 'base/layout.html' %}
+
+{% block title %}
+  Update book
+{% endblock %}
+
+{% block messages %}
+{% if messages %}
+{% for message in messages %}
+  <p>{{ message }}</p>
+{% endfor %}
+{% endif %} 
+{% endblock messages %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    {{ book_form.as_p }}
+    <button type="submit">Göndər</button>
+  </form>
+{% endblock %}

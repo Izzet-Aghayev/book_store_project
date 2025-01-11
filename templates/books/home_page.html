@@ -15,6 +15,7 @@
 {% block content %}
 
   {% for book in books %}
+  <p>{{ book.id }}</p>
     <p>{{ book.categories }}</p>
     <p>{{ book.title }}</p>
     <p>{{ book.author }}</p>
@@ -24,6 +25,7 @@
     <p>{{ book.number }}</p>
     <p>{{ book.book_isbn }}</p>
     <p>{{ book.description }}</p>
+    <p>-----------------------------------</p>
     {% endfor %}
 
 {% endblock %}
