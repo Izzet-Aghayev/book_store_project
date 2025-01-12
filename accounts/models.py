@@ -19,7 +19,7 @@ class NewUser(AbstractUser):
 
     def save(self, *args, **kwargs):
         # Şifrə düz mətndirsə, heşləyin
-        if self.pk is None and self.password:  # Yalnız yaradılan zaman
+        if self.pk is None and self.password:
             self.set_password(self.password)
         super().save(*args, **kwargs)
 
