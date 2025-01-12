@@ -1,11 +1,11 @@
 from django.contrib import admin
 
-from .models import NewUser
+from .models import User
 
 
 
-@admin.register(NewUser)
+@admin.register(User)
 class NewUserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'username')
-    search_fields = ('username',)
+    list_display = ('id', 'email')
+    search_fields = ('email',)
     list_per_page = 25
