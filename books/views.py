@@ -29,7 +29,7 @@ class CreateBookView(View):
         return render(request, 'books/create_book.html', context)
     
     def post(self, request):
-        book_form = BookForm(request.POST)
+        book_form = BookForm(request.POST, request.FILES)
         if book_form.is_valid():
             book_form.save()
 
@@ -83,7 +83,7 @@ class UpdateBookView(View):
     
     def post(self, request, pk):
         book = self.get_object(pk=pk)
-        book_form = BookForm(request.POST, instance=book)
+        book_form = BookForm(request.POST, request.FILES, instance=book)
         if book_form.is_valid():
             book_form.save()
             return redirect('detail_book', book.id)

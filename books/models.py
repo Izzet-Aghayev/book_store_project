@@ -16,7 +16,7 @@ class Category(models.Model):
 
     class Meta:
         verbose_name = 'Category'
-        verbose_name_plural = 'Categories'
+        verbose_name_plural = 'Category'
 
 
 class Book(TrackingModel):
@@ -28,5 +28,6 @@ class Book(TrackingModel):
     discount_price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)], null=True, blank=True)
     discount_dedline = models.DateTimeField()
     number = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(1000)])
-    book_isbn = models.CharField(max_length=13, validators=[MinLengthValidator(13)])
+    book_isbn = models.CharField(unique=True, max_length=13, validators=[MinLengthValidator(13)])
     description = models.TextField(null=True, blank=True)
+    book_image = models.ImageField(upload_to='media/')

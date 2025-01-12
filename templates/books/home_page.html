@@ -15,6 +15,7 @@
 {% block content %}
 
   {% for book in books %}
+  <img src="{{ book.book_image.url }}" alt="kitabın şəkli">
   <p>{{ book.id }}</p>
     <p>{{ book.categories }}</p>
     <p>{{ book.title }}</p>

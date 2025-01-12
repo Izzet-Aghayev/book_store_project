@@ -1,4 +1,3 @@
-from xml.parsers.expat import model
 from django import forms
 
 from .models import Book
