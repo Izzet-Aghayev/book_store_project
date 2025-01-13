@@ -1,28 +1,62 @@
 {% extends 'base/layout.html' %}
 
 {% block title %}
-  Detail-{{book.title}}
+  Detail-{{ book.title }}
 {% endblock %}
 
-{% block messages %}
-{% if messages %}
-{% for message in messages %}
-  <p>{{ message }}</p>
-{% endfor %}
-{% endif %} 
-{% endblock messages %}
-
 {% block content %}
+  <div class="card ms-5 my-3" style="width: 20rem;">
+    <img src="{{ book.book_image.url }}" alt="{{ book.id }} - elanın şəkli" class="card-img-top" style="width: auto; height: 250px; object-fit: cover;" />
+    <hr />
+    <div class="card-body">
+      <div class="d-flex justify-content-evenly">
+        <div style="width: 100%; ">
+          <p style="display: inline-block; color: rgb(124, 122, 122);">Kateqoriya</p>
+          <p class="card-title w-50">{{ book.categories }}</p>
+        </div>
+        <div style="width: 100%; ">
+          <p style="display: inline-block; color: rgb(124, 122, 122);">Kitabın adı</p>
+          <p class="card-text w-50">{{ book.title }}</p>
+        </div>
+      </div>
+      <hr />
+      <div class="d-flex justify-content-around me-5">
+        <b style="color: green; font-size: 21px; margin-right: 10px;">{{ book.offer_price }} azn</b>
+        <p style="color: red; font-size: 18px;">
+          <s>{{ book.price }}</s> azn
+        </p>
+      </div>
 
-    <img src="{{ book.book_image.url }}" alt="kitabın şəkli">
-    <p>{{ book.categories }}</p>
-    <p>{{ book.title }}</p>
-    <p>{{ book.author }}</p>
-    <p>{{ book.price }}</p>
-    <p>{{ book.discount_price }}</p>
-    <p>{{ book.discount_dedline }}</p>
-    <p>{{ book.number }}</p>
-    <p>{{ book.book_isbn }}</p>
-    <p>{{ book.description }}</p>
+      <b style="margin-left: 12px;">Son tarix:</b>
+      <b style="color: black; margin-left: 10px;">{{ book.offer_dedline }}</b>
 
+      <hr />
+
+      <p style="display: inline-block; color: blue;">Müəlifi:</p>
+      <b style="color: black; margin-left: 10px; font-size: 19px;">{{ book.author }}</b>
+
+      <hr />
+
+      <b style="display: inline-block; color: rgb(124, 122, 122);">Haqqında:</b>
+      <p style="display: inline; width: 250px;">{{ book.description }}</p>
+      <hr />
+
+      <b style="display: inline-block; color: rgb(124, 122, 122);">Sayı:</b>
+      <p style="display: inline;" class="card-text">{{ book.number }} ədəd qaldı</p>
+
+      <div class="d-flex justify-content-around mt-4">
+        <!--   {% if watch.user == user %}
+        <form action="{% url 'update_watch' watch.id %}" method="post">
+          {% csrf_token %}
+          <button class="btn btn-warning ms-2">Yenilə</button>
+        </form>
+
+        <form action="{% url 'delete_watch' watch.id %}" method="post">
+          {% csrf_token %}
+          <button class="btn btn-danger ms-2">Sil</button>
+        </form>
+      {% endif %}   -->
+      </div>
+    </div>
+  </div>
 {% endblock %}

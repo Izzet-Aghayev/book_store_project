@@ -1,28 +1,24 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+from accounts.managers import UserManager
+
+from django.contrib.auth.models import AbstractUser
+from django.db import models
+from django.utils.translation import gettext_lazy as _
+
+from .managers import UserManager
+
 
 class User(AbstractUser):
     username = None
-    email = models.EmailField(unique=True)
+    email = models.EmailField(_("email address"), unique=True)
     is_employee = models.BooleanField(default=False)
 
-    groups = models.ManyToManyField(
-        'auth.Group',
-        related_name='main_user_groups',
-        blank=True
-    )
-    user_permissions = models.ManyToManyField(
-        'auth.Permission',
-        related_name='main_user_permissions',
-        blank=True
-    )
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
 
-    def save(self, *args, **kwargs):
-        if self.password and not self.password.startswith('pbkdf2_'):
-            self.set_password(self.password)  
-        super().save(*args, **kwargs)
-
+    objects = UserManager()
 
     def __str__(self):
         return self.email

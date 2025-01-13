@@ -45,27 +45,6 @@ class UserSignView(View):
 
         return render(request, 'accounts/login.html', context)
     
-    # def post(self, request):
-    #     form = LoginForm(request.POST)
-
-    #     if form.is_valid():
-    #         email = form.cleaned_data['email']
-    #         password = form.cleaned_data['password']
-    #         user = authenticate(request, email=email, password=password)
-
-    #         print(f"Authenticated user: {user}")  # Burada yoxlayın
-
-    #         if user is not None and user.is_active:
-    #             login(request, user)
-    #             messages.success(request, 'Uğurla daxil oldunuz')
-    #             return redirect('all_books')
-    #         else:
-    #             messages.error(request, 'Email və ya şifrə yanlışdır')
-    #             return redirect('login')
-    #     else:
-    #         messages.error(request, 'Email və ya şifrə yanlışdırrrr')
-    #         return redirect('login')
-
     def post(self, request):
         form = LoginForm(request.POST)
 

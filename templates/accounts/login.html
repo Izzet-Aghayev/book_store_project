@@ -1,4 +1,6 @@
 {% extends 'base/layout.html' %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
 
 {% block title %}
   Login
@@ -15,7 +17,7 @@
 {% block content %}
   <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form|crispy }}
     <button type="submit">Göndər</button>
   </form>
 {% endblock %}
