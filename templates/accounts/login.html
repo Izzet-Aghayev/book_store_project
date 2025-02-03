@@ -6,18 +6,28 @@
   Login
 {% endblock %}
 
-{% block messages %}
-{% if messages %}
-{% for message in messages %}
-  <p>{{ message }}</p>
-{% endfor %}
-{% endif %} 
-{% endblock messages %}
+{% block message %}
+  {% if messages %}
+    {% for message in messages %}
+      <div class="container" style="background-color: lightsteelblue; width: 600px; border-radius: 50%;">
+        <b><div class="mx-auto p-2" style="width: auto; font-size: 18px; color: rgb(219, 36, 36); text-align: center;">{{ message }}</div></b>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endblock %}
 
 {% block content %}
-  <form method="post">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <button type="submit">Göndər</button>
-  </form>
+  <div class="d-flex justify-content-center my-3">
+    <div class="w-50">
+        <div class="form-ust">
+          <div class="form-ic">
+            <form method="post">
+              {% csrf_token %}
+              {{ form|crispy }}
+              <input type="submit" value="Submit" class="btn btn-outline-primary btn-lg" />
+            </form>
+          </div>
+        </div>
+    </div>
+  </div>
 {% endblock %}

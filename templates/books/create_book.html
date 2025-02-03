@@ -19,14 +19,7 @@
 {% block content %}
 
 <div class="d-flex justify-content-center my-3">
-  <div style="width: 600px;">
-    {% if messages %}
-      {% for message in messages %}
-        <p>{{ message }}</p>
-      {% endfor %}
-      <p>------------------------------------------</p>
-    {% endif %}
-
+  <div style="width: 700px;">
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       {{ book_form|crispy }}

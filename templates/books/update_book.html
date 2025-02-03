@@ -1,21 +1,31 @@
 {% extends 'base/layout.html' %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
 
 {% block title %}
-  Update book
+  Elanı yenilə
 {% endblock %}
 
-{% block messages %}
-{% if messages %}
-{% for message in messages %}
-  <p>{{ message }}</p>
-{% endfor %}
-{% endif %} 
-{% endblock messages %}
+
+{% block message %}
+  {% if messages %}
+    {% for message in messages %}
+      <div class="container" style="background-color: lightsteelblue; width: 600px;">
+        <b><div class="mx-auto p-2" style="width: auto; font-size: 18px; color: rgb(219, 36, 36); text-align: center;">{{ message }}</div></b>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endblock %}
 
 {% block content %}
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ book_form.as_p }}
-    <button type="submit">Göndər</button>
-  </form>
+
+<div class="d-flex justify-content-center my-3">
+  <div style="width: 700px;">
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ book_form|crispy }}
+      <input type="submit" value="Submit" class="btn btn-outline-primary btn-lg" />
+    </form>
+  </div>
+</div>
 {% endblock %}

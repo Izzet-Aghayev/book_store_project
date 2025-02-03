@@ -1,4 +1,5 @@
 {% extends 'base/layout.html' %}
+{% load tz %}
 
 {% block title %}
   Əsas səhifə
@@ -15,38 +16,48 @@
 {% endblock %}
 
 {% block content %}
-
-<div class="row row-cols-3 mb-3">
-  {% for book in books %}
-    <div class="col mt-5 d-flex justify-content-around">
-      <div class="card" style="width: 18rem; box-shadow: 2px 3px 6px aqua; background-color: rgb(241, 241, 241);">
-
+  <div class="row row-cols-3 mb-3">
+    {% for book in books %}
+      <div class="col mt-5 d-flex justify-content-around">
+        <div class="card" style="width: 18rem; box-shadow: 2px 3px 6px aqua; background-color: rgb(241, 241, 241);">
           <img src="{{ book.book_image.url }}" alt="{{ book.id }} - elanın şəkli" class="card-img-top" style="width: auto; height: 250px; object-fit: cover;" />
-       
-        <div class="card-body">
-          <div class="d-flex justify-content-evenly ms-2 col-2">
-            <p class="card-title w-50">{{ book.title }}</p>
-            <p class="card-text w-50">{{ book.author }}</p>
-          </div>
-          <div class="d-flex justify-content-around me-5">
-            <b style="color: green; font-size: 21px; margin-right: 11px;">{{ book.offer_price }} azn</b>
-            <p style="color: red; font-size: 18px;">
-              <s>{{ book.price }}</s> azn
-            </p>
-          </div>
 
-          <b style="margin-left: 7px;">Son tarix:</b>
-          <b style="color: black; margin-left: 10px;">{{ book.offer_dedline|date:'d.m.Y H:i' }}</b>
+          <div class="card-body">
+            <div style="width: 240px;" class="d-flex flex-column mb-1">
+              <p class="card-title p-2">{{ book.title }}</p>
+              <p class="card-text p-2">{{ book.author }}</p>
+            </div>
 
-          <div class="d-flex mt-2">
-            <form action="{% url 'detail_book' book.id %}" method="post">
-              {% csrf_token %}
-              <button class="btn btn-primary ms-2">Ətraflı</button>
-            </form>
+            {% if book.offer_price and book.offer_dedline|date:'d-m-Y H:i' > now_datetime %}
+              <div class="d-flex justify-content-around me-5">
+                <b style="color: green; font-size: 21px; margin-right: 11px;">{{ book.offer_price }} azn</b>
+                <p style="color: red; font-size: 18px;">
+                  <s>{{ book.price }}</s> azn
+                </p>
+              </div>
+            {% else %}
+              <p style="color: green; font-size: 18px;">
+                <b>{{ book.price }}</b> azn
+              </p>
+            {% endif %}
+
+            <b style="margin-left: 7px;">Son tarix:</b>
+            <b style="color: black; margin-left: 10px;">{{ book.offer_dedline|date:'d.m.Y H:i' }}</b>
+            <div style="display: flex; justify-content: center;">
+              <div class="d-flex mt-2">
+                <form action="{% url 'detail_book' book.id %}" method="post">
+                  {% csrf_token %}
+                  <button class="btn btn-primary me-4">Ətraflı</button>
+                </form>
+
+                <div class="btn btn-primary ms-3">
+                  <a style="color: white; text-decoration: none;" href="{% url 'buy' book.id %}?next={{ request.path }}">Kitabı al</a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  {% endfor %}
-</div>
+    {% endfor %}
+  </div>
 {% endblock %}

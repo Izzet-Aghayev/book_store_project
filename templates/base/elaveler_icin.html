@@ -18,3 +18,94 @@
     {% endfor %}
 
 {% endblock %} -->
+
+
+
+<!-- <div class="card mb-3" style="max-width: 540px;">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="..." class="img-fluid rounded-start" alt="...">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+
+
+<!-- <div class="d-flex justify-content-around mt-4">
+          {% if watch.user == user %}
+        <form action="{% url 'update_watch' watch.id %}" method="post">
+          {% csrf_token %}
+          <button class="btn btn-warning ms-2">Yenilə</button>
+        </form>
+
+        <form action="{% url 'delete_watch' watch.id %}" method="post">
+          {% csrf_token %}
+          <button class="btn btn-danger ms-2">Sil</button>
+        </form>
+      {% endif %}  
+      </div> -->
+
+
+      <!-- def get_objects(self, request):
+      user = request.user
+      return user
+  
+  def post(self, request):
+      user = self.get_objects(request=request)
+      self.perform_delete(obj=user)
+
+      messages.success(request, '')
+      return redirect('all_books')
+
+  def perform_delete(self, obj):
+      obj.delete() -->
+
+
+      
+
+
+
+    
+      # def post(self, request, pk):
+      #     previous_page = request.META.get("HTTP_REFERER", "/")
+  
+      #     book = self.get_object(pk=pk)
+      #     number = book.number
+      #     if number > 0:
+      #         new_number = self.update_number(book=book)
+      #         book.number = new_number
+      #         book.save()
+  
+      #         messages.success(request, f'{book.title} adlı kitab alındı')
+      #         return redirect(previous_page)
+      #     else:
+      #         information = self.update_number(book=book)
+      #         messages.error(request, information)
+      #         return redirect(previous_page)
+  
+      # def update_number(self, book):
+      #     information = None
+      #     number = book.number
+      #     if number > 0:
+      #         new_number = number - 1
+      #         information = new_number
+      #     else:
+      #         information = f'{book.title} adlı kitab bitib'
+  
+      #     return information
+
+
+
+      <form action="{% url 'buy' book.id %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="number" value="{{ book.number }}"/>
+        <button class="btn btn-primary ms-2">Kitabı al</button>
+      </form>

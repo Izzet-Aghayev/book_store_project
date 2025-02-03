@@ -1,3 +1,4 @@
+from re import L
 from django.db import models
 from django.core.validators import (
     MinValueValidator,
@@ -19,8 +20,9 @@ class Category(models.Model):
         verbose_name_plural = 'Category'
 
 
+
 class Book(TrackingModel):
-    categories = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     title = models.CharField(max_length=50)
     author = models.CharField(max_length=30)
@@ -31,3 +33,12 @@ class Book(TrackingModel):
     book_isbn = models.CharField(unique=True, max_length=13, validators=[MinLengthValidator(13)])
     description = models.TextField(null=True, blank=True)
     book_image = models.ImageField(upload_to='book_media/')
+
+
+
+class BuyBookNumber(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    number = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(1000)])
+    
+    def __str__(self):
+        return self.book
