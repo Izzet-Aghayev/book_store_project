@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from datetime import datetime
+from django.utils.timezone import now
 
 from accounts.models import Profile, User
 
@@ -13,19 +13,41 @@ from .models import (
 
 from .forms import (
     BookForm,
-    BuyBookForm
+    BuyBookForm,
+    CategoryForm
 )
+
+
+
+class AddCategoryView(View):
+    def get(self, request):
+        form = CategoryForm()
+        context = {
+            'form': form,
+        }
+
+        return render(request, 'books/add_category.html', context)
+    
+    def post(self, request):
+        form = CategoryForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+
+            messages.success(request, 'Kateqoriya əlavə edildi')
+            return redirect('add_category')
+
+
 
 class ListBookViews(View):
     def get(self, request):
         books = Book.objects.all()
-        now_datetime = datetime.now().strftime("%d-%m-%Y %H:%M")
+        now_datetime = now()
 
         context = {
             'books': books,
             'now_datetime': now_datetime
         }
-        print(now_datetime)
 
         return render(request, 'books/home_page.html', context)
     
@@ -70,18 +92,21 @@ class DetailBookView(LoginRequiredMixin, View):
 
     def get(self, request, pk):
         book = self.get_object(pk=pk)
-
+        now_datetime = now()
         context = {
             'book': book,
+            'now_datetime': now_datetime
         }
-
+        
         return render(request, 'books/detail_book.html', context)
     
     def post(self, request, pk):
         book = self.get_object(pk=pk)
+        now_datetime = now()
 
         context = {
             'book': book,
+            'now_datetime': now_datetime
         }
 
         return render(request, 'books/detail_book.html', context)
@@ -203,7 +228,13 @@ class BuyBook(LoginRequiredMixin, View):
             order_number = order_books.number
             stock_number = book.number
             if stock_number >= order_number:
-                amount = book.offer_price * order_number
+                now_datetime = now()
+                if book.offer_price == 0 and book.offer_dedline > now_datetime:
+                    price = book.offer_price
+                else:
+                    price = book.price
+                
+                amount = price * order_number
                 
                 if buyer.account_balance == None:
                     buyer_balance = 0

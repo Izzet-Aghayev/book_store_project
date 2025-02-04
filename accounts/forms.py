@@ -18,11 +18,26 @@ class RegisterForm(UserCreationForm):
             'email': forms.EmailInput(attrs={'class':'input', 'placeholder': 'Email Address'})
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.label_suffix = ''
+        
+        self.fields['email'].label = 'Emaili əlavə edin'
+        self.fields['password1'].label = 'Şifrə təyin edin'
+        self.fields['password2'].label = 'Şifrəni təyin edin'
+
 
 
 class LoginForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.label_suffix = ''
+        
+        self.fields['email'].label = 'Emaili yazın'
+        self.fields['password'].label = 'Şifrəni yazın'
 
 
 

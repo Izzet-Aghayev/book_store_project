@@ -16,7 +16,7 @@
 
 {% block content %}
   <div class="d-flex justify-content-center mt-4">
-    <div class="card mb-3" style="max-width: 1200px; background-color: rgb(232, 255, 248);">
+    <div class="card mb-3" style="width: 1200px; background-color: rgb(232, 255, 248);">
       <div class="row g-0">
         <div class="col-md-5">
           <img src="{{ book.book_image.url }}" class="img-fluid rounded-start" alt="{{ book.id }}" style="width: 100%;" />
@@ -40,15 +40,22 @@
               </div>
               <div class="col-md-7">
                 <div class="d-flex justify-start me-5">
-                  <p style="font-size: 18px; margin-left: 10px; margin-right: 35px;">
-                    Qiymət:
-                    <s style="color: red; margin-left: 10px;">{{ book.price }}</s>
-                    <span style="color: red;">AZN</span>
-                  </p>
-                  <p style="font-size: 18px;">
-                    <b style="color: rgb(30, 196, 30); margin-left: 10px; font-size: 21px;">{{ book.offer_price }}</b>
-                    <b style="margin-left: 5px; color:rgb(30, 196, 30);">AZN</b>
-                  </p>
+                  {% if book.offer_price and book.offer_dedline > now_datetime %}
+                    <p style="font-size: 18px; margin-left: 10px; margin-right: 35px;">
+                      Qiymət:
+                      <s style="color: red; margin-left: 10px;">{{ book.price }}</s>
+                      <span style="color: red;">AZN</span>
+                    </p>
+                    <p style="font-size: 18px;">
+                      <b style="color: rgb(30, 196, 30); margin-left: 10px; font-size: 21px;">{{ book.offer_price }}</b>
+                      <b style="margin-left: 5px; color:rgb(30, 196, 30);">AZN</b>
+                    </p>
+                  {% else %}
+                    <p style="font-size: 18px; margin-left: 10px; margin-right: 35px;">
+                      Qiymət:<span style="color: rgb(30, 196, 30); margin-left: 10px;">{{ book.price }}</span>
+                      <span style="color: rgb(30, 196, 30);">AZN</span>
+                    </p>
+                  {% endif %}
                 </div>
                 <b style="margin-left: 10px;">Son tarix:</b>
                 <b style="color: black; margin-left: 10px;">{{ book.offer_dedline|date:'d.m.Y H:i' }}</b>
