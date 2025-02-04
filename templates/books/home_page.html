@@ -45,25 +45,25 @@
             <b style="color: black; margin-left: 10px;">{{ book.offer_dedline|date:'d.m.Y H:i' }}</b>
             <div style="display: flex; justify-content: center;">
               <div class="d-flex mt-2">
-                {% if user.is_employee == 0 %}
-                <form action="{% url 'detail_book' book.id %}" method="post">
-                  {% csrf_token %}
-                  <button class="btn btn-primary me-4">Ətraflı</button>
-                </form>
-                <div class="btn btn-primary ms-3">
-                  <a style="color: white; text-decoration: none;" href="{% url 'buy' book.id %}?next={{ request.path }}">Kitabı al</a>
-                </div>
+                {% if user.is_employee == 1 %}
+                  <form action="{% url 'detail_book' book.id %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-primary me-4">Ətraflı</button>
+                  </form>
+                  <div style="margin-right: 28px;" class="btn btn-success">
+                    <a style="color: white; text-decoration: none;" href="{% url 'update_book' book.id %}">Yenilə</a>
+                  </div>
+                  <div class="btn btn-danger">
+                    <a style="color: white; text-decoration: none;" href="{% url 'delete_book' book.id %}">Sil</a>
+                  </div>
                 {% else %}
-                <form action="{% url 'detail_book' book.id %}" method="post">
-                  {% csrf_token %}
-                  <button class="btn btn-primary me-4">Ətraflı</button>
-                </form>
-                <div style="margin-right: 28px;" class="btn btn-success">
-                  <a style="color: white; text-decoration: none;" href="{% url 'update_book' book.id %}">Yenilə</a>
-                </div>
-                <div class="btn btn-danger">
-                  <a style="color: white; text-decoration: none;" href="{% url 'delete_book' book.id %}">Sil</a>
-                </div>
+                    <form action="{% url 'detail_book' book.id %}" method="post">
+                      {% csrf_token %}
+                      <button class="btn btn-primary me-4">Ətraflı</button>
+                    </form>
+                    <div class="btn btn-primary ms-3">
+                      <a style="color: white; text-decoration: none;" href="{% url 'buy' book.id %}?next={{ request.path }}">Kitabı al</a>
+                    </div>
                 {% endif %}
               </div>
             </div>
