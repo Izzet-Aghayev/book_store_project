@@ -123,6 +123,11 @@ class ProfileView(LoginRequiredMixin, View):
         profile = get_object_or_404(Profile, user=request.user)
 
         return profile
+    
+    def get_user_object(self, request):
+        user = request.user
+
+        return user
 
     def generate_profile_title(self, profile):
         email = profile.email
@@ -146,18 +151,24 @@ class ProfileView(LoginRequiredMixin, View):
         return render(request, 'accounts/profile.html', context)
     
     def post(self, request):
-        profile = self.get_object(request=request)
+        user = self.get_user_object(request=request)
 
-        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if user.is_employee==0:
+            profile = self.get_object(request=request)
 
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Profile məlumatları yeniləndi')
-            return redirect('profile')
+            form = ProfileForm(request.POST, request.FILES, instance=profile)
+
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Profile məlumatları yeniləndi')
+                return redirect('profile')
+            
+            context = {
+                'form': form
+            }
+
+            messages.error(request, "Formda səhvlər var. Məlumatları yenidən yoxlayın.")
+            return render(request, 'accounts/profile.html', context)
         
-        context = {
-            'form': form
-        }
-
-        messages.error(request, "Formda səhvlər var. Məlumatları yenidən yoxlayın.")
-        return render(request, 'accounts/profile.html', context)
+        messages.error(request, "İnzibatçı profili dəyişilə bilməz")
+        return redirect('all_books')
