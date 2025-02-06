@@ -17,42 +17,46 @@
 {% endblock %}
 
 {% block content %}
-  
-<div class="container d-flex flex-column aling-items-center mt-4 mb-4 w-75">
-  
-  <div class="d-flex justify-content-center">
-    <div>
-    <div class="d-flex flex-column me-5 mt-2">
-      {% if profile.profile_image %}
-        <img src="{{ profile.profile_image.url }}" alt="Profile image" style="width: 150px; height: 130px; border-radius: 50%;" />
-      {% else %}
-        <img src="/media/profile/download.png" alt="Profile image" style="width: 150px; height: 130px; border-radius: 50%;" />
-      {% endif %}
-    </div>
-
-    {% if user.is_employee == 0 %}
-
-      <p style="margin-top: 40px; margin-left: 15px;"><a href="{% url 'delete_user' %}" class="btn btn-outline-danger btn-lg"> Hesabı sil </a></p>
-
-      {% endif %}
-  
-  </div>
-
-    <div style="margin-top: 20px;">
-      <div style="display: flex; justify-content: start; width: 100%; ">
-        <p style="display: inline-block; color: rgb(124, 122, 122); margin-right: 10px; font-size: 18px;">Email:</p>
-        <h3 style="font-size: 21px;" class="card-title w-50"> {{ profile.email }}</h3>
-      </div>
-      <form method="post" enctype="multipart/form-data" class="mt-4 d-flex flex-column">
-        {% csrf_token %}
-        {{ form|crispy }}
-
-        <div class="d-flex justify-content-center">
-          <input type="submit" value="Təsdiqlə" class="btn btn-outline-primary btn-lg" />
+  <div class="container d-flex flex-column aling-items-center mt-4 mb-4 w-75">
+    <div class="d-flex justify-content-center">
+      <div>
+        <div class="d-flex flex-column me-5 mt-2">
+          {% if user.is_employee == 0 %}
+            {% if profile.profile_image %}
+              <img src="{{ profile.profile_image.url }}" alt="Profile image" style="width: 150px; height: 130px; border-radius: 50%;" />
+            {% else %}
+              <img src="/media/profile/download.png" alt="Profile image" style="width: 150px; height: 130px; border-radius: 50%;" />
+            {% endif %}
+          {% else %}
+            <img src="/media/profile/image.png" alt="Profile image" style="width: 150px; height: 130px; border-radius: 50%;" />
+          {% endif %}
         </div>
-      </form>
+
+        {% if user.is_employee == 0 %}
+          <p style="margin-top: 40px; margin-left: 15px;">
+            <a href="{% url 'delete_user' %}" class="btn btn-outline-danger btn-lg">Hesabı sil</a>
+          </p>
+        {% endif %}
+      </div>
+
+      <div style="margin-top: 20px;">
+        <div style="display: flex; justify-content: start; width: 100%; ">
+          <p style="display: inline-block; color: rgb(124, 122, 122); margin-right: 10px; font-size: 18px;">Email:</p>
+          <h3 style="font-size: 21px;" class="card-title w-50">{{ profile.email }}</h3>
+        </div>
+        <form method="post" enctype="multipart/form-data" class="mt-4 d-flex flex-column">
+          {% csrf_token %}
+          {{ form|crispy }}
+
+          {% if user.is_employee == 0 %}
+            <div class="d-flex justify-content-center">
+              <input type="submit" value="Təsdiqlə" class="btn btn-outline-primary btn-lg" />
+            </div>
+          {% else %}
+
+          {% endif %}
+        </form>
+      </div>
     </div>
   </div>
-</div>
-  
 {% endblock %}
