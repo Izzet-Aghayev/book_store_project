@@ -7,6 +7,7 @@ from django.utils.timezone import now
 from accounts.models import Profile, User
 
 from .models import (
+    Category,
     Book,
     BuyBookNumber
 )
@@ -19,14 +20,19 @@ from .forms import (
 
 
 
-class AddCategoryView(View):
+class AddCategoryView(LoginRequiredMixin, View):
     def get(self, request):
+        user = request.user
         form = CategoryForm()
         context = {
             'form': form,
         }
 
-        return render(request, 'books/add_category.html', context)
+        if user.is_employee == 1:
+            return render(request, 'books/categories/add_category.html', context)
+        else:
+            messages.error(request, 'Yalnız inzibatçı baxa bilər')
+            return redirect('all_books')
     
     def post(self, request):
         form = CategoryForm(request.POST)
@@ -36,6 +42,100 @@ class AddCategoryView(View):
 
             messages.success(request, 'Kateqoriya əlavə edildi')
             return redirect('add_category')
+        
+        messages.error(request, 'Bu kateqoriya mövcuddur')
+        return redirect('add_category')
+    
+
+class ListCategoryView(LoginRequiredMixin, View):
+    def get(self, request):
+        user = request.user
+        categories = Category.objects.all()
+
+        context = {
+            'categories': categories,
+        }
+
+        if user.is_employee == 1:
+            return render(request, 'books/categories/all_categories.html', context)
+        else:
+            messages.error(request, 'Yalnız inzibatçı üçündür')
+            return redirect('all_books')
+
+
+class UpdateCategoryView(LoginRequiredMixin, View):
+    def get_category_object(self, pk):
+        categories = Category.objects.all()
+        category = get_object_or_404(categories, pk=pk)
+
+        return category
+
+    def get(self, request, pk):
+        user = request.user
+        category = self.get_category_object(pk=pk)
+        form = CategoryForm(instance=category)
+
+        context = {
+            'form': form,
+        }
+
+        if user.is_employee == 1:
+            return render(request, 'books/categories/update_category.html', context)
+        else:
+            messages.error(request, 'Yalnız inzibatçı dəyişim edə bilər')
+            return redirect('all_books')
+    
+    def post(self, request, pk):
+        category = self.get_category_object(pk=pk)
+        form = CategoryForm(request.POST, instance=category)
+
+        if form.is_valid():
+            form.save()
+
+            messages.success(request, 'Kateqoriya dəyişdirildi')
+            return redirect('all_categories')
+        
+        messages.error(request, 'Bu kateqoriya mövcuddur')
+        return redirect('all_categories')
+    
+
+class DeleteCategoryView(LoginRequiredMixin, View):
+    def get_category_object(self, pk):
+        categories = Category.objects.all()
+        category = get_object_or_404(categories, pk=pk)
+
+        return category
+    
+    def post(self, request, pk):
+        user = request.user
+        category = self.get_category_object(pk=pk)
+        
+        if user.is_employee == 1:
+            category
+            self.perform_delete(obj=category)
+
+            messages.success(request, 'Kateqoriya silindi')
+            return redirect('all_categories')
+        else:
+            messages.error(request, 'Yalnız inzibatçı silə bilər')
+            return redirect('all_books')
+        
+    def get(self, request, pk):
+        user = request.user
+        category = self.get_category_object(pk=pk)
+        
+        if user.is_employee == 1:
+            category
+            self.perform_delete(obj=category)
+
+            messages.success(request, 'Kateqoriya silindi')
+            return redirect('all_categories')
+        else:
+            messages.error(request, 'Yalnız inzibatçı silə bilər')
+            return redirect('all_books')
+
+    def perform_delete(self, obj):
+        obj.delete()
 
 
 

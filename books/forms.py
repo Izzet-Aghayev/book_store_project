@@ -22,7 +22,6 @@ class CategoryForm(forms.ModelForm):
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
-        # exclude = ('created_at', 'updated_at')
         fields = '__all__'
 
     def __init__(self, *args, **kwargs):

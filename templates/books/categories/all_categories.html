@@ -1,0 +1,37 @@
+{% extends 'base/layout.html' %}
+
+{% block title %}
+  Bütün kateqorialar
+{% endblock %}
+
+{% block message %}
+  {% if messages %}
+    {% for message in messages %}
+      <div class="container" style="background-color: lightsteelblue; width: 600px;">
+        <b><div class="mx-auto p-2" style="width: auto; font-size: 18px; color: rgb(219, 36, 36); text-align: center;">{{ message }}</div></b>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <body style="background-color:rgb(218, 255, 179);">
+    <div style="display: flex; justify-content: center;">
+      <div style="width: 1200px;" class="row row-cols-3 mb-3 mt-2">
+        {% for category in categories %}
+          <div style="display: flex; justify-content: space-around; width: 350px; height: 50px; border-radius: 20px; background-color: rgb(75, 239, 184); margin-left: 20px; margin-top: 15px; font-size: 25px;" aria-hidden="true">
+            <span class="placeholder col-6">{{ category }}</span>
+           <div>
+            <div class="btn btn-success">
+                <a style="color: white; text-decoration: none;" href="{% url 'update_category' category.id %}">Yenilə</a>
+              </div>
+              <div class="btn btn-danger">
+                <a style="color: white; text-decoration: none;" href="{% url 'delete_category' category.id %}">Sil</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </body>
+{% endblock %}
