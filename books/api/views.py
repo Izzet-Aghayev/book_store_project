@@ -81,7 +81,7 @@ class CreateBookMixinsView(mixins.CreateModelMixin,
 
 
 
-class CategoryDetailMixinsView(mixins.RetrieveModelMixin,
+class CreateDetailMixinsView(mixins.RetrieveModelMixin,
                             mixins.UpdateModelMixin,
                             mixins.DestroyModelMixin,
                             generics.GenericAPIView):
@@ -98,3 +98,5 @@ class CategoryDetailMixinsView(mixins.RetrieveModelMixin,
     
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+
