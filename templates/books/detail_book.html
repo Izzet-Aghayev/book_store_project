@@ -1,7 +1,7 @@
 {% extends 'base/layout.html' %}
 
 {% block title %}
-  Detail-{{ book.title }}
+  Detail
 {% endblock %}
 
 {% block message %}
@@ -15,6 +15,7 @@
 {% endblock %}
 
 {% block content %}
+<body style="background-color: rgb(208, 255, 239);">
   <div class="d-flex justify-content-center mt-4">
     <div class="card mb-3" style="width: 1200px; background-color: rgb(232, 255, 248);">
       <div class="row g-0">
@@ -98,4 +99,5 @@
       </div>
     </div>
   </div>
+</body>
 {% endblock %}

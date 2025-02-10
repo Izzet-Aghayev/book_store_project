@@ -13,7 +13,7 @@ urlpatterns = [
 
     path('delete/<int:pk>/', book_views.DeleteBookView.as_view(), name='delete_book'),
 
-    path('buy/<int:pk>/', book_views.BuyBook.as_view(), name='buy'),
+    path('buy/<int:pk>/', book_views.BuyBookView.as_view(), name='buy'),
 
     path('categories/', book_views.ListCategoryView.as_view(), name='all_categories'),
 

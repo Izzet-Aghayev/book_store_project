@@ -17,14 +17,15 @@
 {% endblock %}
 
 {% block content %}
-
-<div class="d-flex justify-content-center my-3">
-  <div style="width: 700px;">
-    <form method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      {{ book_form|crispy }}
-      <input type="submit" value="Təsdiqlə" class="btn btn-outline-primary btn-lg" />
-    </form>
-  </div>
-</div>
+  <body style="background-color: rgb(221, 255, 244);">
+    <div class="d-flex justify-content-center my-3">
+      <div style="width: 700px;">
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ book_form|crispy }}
+          <input type="submit" value="Təsdiqlə" class="btn btn-outline-primary btn-lg" />
+        </form>
+      </div>
+    </div>
+  </body>
 {% endblock %}

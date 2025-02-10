@@ -273,7 +273,7 @@ class DeleteBookView(LoginRequiredMixin, View):
 
 
 
-class BuyBook(LoginRequiredMixin, View):
+class BuyBookView(LoginRequiredMixin, View):
     def get_book_object(self, pk):
         books = Book.objects.select_related('category')
         book = get_object_or_404(books, pk=pk)
@@ -329,7 +329,7 @@ class BuyBook(LoginRequiredMixin, View):
             stock_number = book.number
             if stock_number >= order_number:
                 now_datetime = now()
-                if book.offer_price == 0 and book.offer_dedline > now_datetime:
+                if book.offer_price != 0 and book.offer_dedline > now_datetime:
                     price = book.offer_price
                 else:
                     price = book.price
