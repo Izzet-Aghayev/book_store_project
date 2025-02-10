@@ -36,7 +36,7 @@ class RegisterAPIView(APIView):
 '''
 
 {
-    "email": "user1@gmail.com",
+    "email": "admin1@gmail.com",
     "password": "Izzet-1409"
 }
 

@@ -141,7 +141,7 @@ class DeleteCategoryView(LoginRequiredMixin, View):
 
 class ListBookViews(View):
     def get(self, request):
-        books = Book.objects.all()
+        books = Book.objects.all().select_related('category').order_by('-created_at')
         now_datetime = now()
 
         context = {

@@ -16,14 +16,20 @@ from ..models import (
     Category,
     BuyBookNumber
 )
+
+from accounts.models import (
+    Profile,
+)
+
 from .serializers import (
+    BookSerializer,
     CategorySerializer,
     BuyBookSerializer
 )
 
 
 
-class CategoryMixinsView(mixins.ListModelMixin,
+class ListCategoryMixinsView(mixins.ListModelMixin,
                         mixins.CreateModelMixin,
                         generics.GenericAPIView):
     
@@ -48,7 +54,7 @@ class CategoryMixinsView(mixins.ListModelMixin,
 '''
 
 
-class CategoryDetailMixinsView(mixins.RetrieveModelMixin,
+class DetailCategoryMixinsView(mixins.RetrieveModelMixin,
                             mixins.UpdateModelMixin,
                             mixins.DestroyModelMixin,
                             generics.GenericAPIView):
@@ -71,8 +77,8 @@ class CategoryDetailMixinsView(mixins.RetrieveModelMixin,
 class ListBookMixinsView(mixins.ListModelMixin,
                         generics.GenericAPIView):
     
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
 
     def get(self, request, *args, **kwargs):
         return self.list(self, request, *args, **kwargs)
@@ -82,8 +88,8 @@ class ListBookMixinsView(mixins.ListModelMixin,
 class CreateBookMixinsView(mixins.CreateModelMixin,
                         generics.GenericAPIView):
     
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedAdmin]
 
     def post(self, request, *args, **kwargs):
@@ -91,13 +97,13 @@ class CreateBookMixinsView(mixins.CreateModelMixin,
 
 
 
-class CreateDetailMixinsView(mixins.RetrieveModelMixin,
+class DetailBookMixinsView(mixins.RetrieveModelMixin,
                             mixins.UpdateModelMixin,
                             mixins.DestroyModelMixin,
                             generics.GenericAPIView):
     
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedAdmin]
 
     def get(self, request, *args, **kwargs):
@@ -115,19 +121,21 @@ class BuyBookAPIView(APIView):
     permission_classes = [IsAuthenticatedBuyer]
 
     def get_book_object(self, pk):
-        book = Book.objects.select_related('category').filter(id=pk)
+        book = Book.objects.select_related('category').filter(id=pk).first()
         
         return book
     
     def get_buyer_object(self, request):
         buyer = request.user
+        profile = Profile.objects.select_related('user').filter(user=buyer).first()
 
-        return buyer
+        return profile
     
     def get_admin_object(self):
-        admin = User.objects.filter(is_employee=1)
+        admin = User.objects.filter(is_employee=1).first()
+        profile = Profile.objects.select_related('user').filter(user=admin).first()
 
-        return admin
+        return profile
     
     def post(self, request, pk):
         book = self.get_book_object(pk=pk)

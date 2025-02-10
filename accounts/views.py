@@ -79,7 +79,6 @@ class UserSignOutView(LoginRequiredMixin, View):
         return redirect('all_books')
     
 
-
 class UserDeleteView(LoginRequiredMixin, View):
     def get_object(self, request):
         user = request.user

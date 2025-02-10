@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     "bootstrap5",
 
+    # JWTAuthentication
+    'rest_framework_simplejwt',
+
     # Apps
     'accounts.apps.AccountsConfig',
     'books.apps.BooksConfig',
@@ -117,6 +120,15 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ]
+}
+
+
 # Authentication backends
 AUTHENTICATION_BACKENDS = [
     'accounts.authentication.EmailBackend',
@@ -149,11 +161,3 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
-    ]
-}
