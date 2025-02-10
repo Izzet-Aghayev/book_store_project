@@ -17,5 +17,4 @@ urlpatterns = [
     path('detail-book/<int:pk>/', books_views.DetailBookMixinsView.as_view(), name='api_detail_book'),
 
     path('buy/<int:pk>/', books_views.BuyBookAPIView.as_view(), name='api_buy_book'),
-
 ]
